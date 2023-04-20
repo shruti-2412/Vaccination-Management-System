@@ -1,0 +1,8 @@
+=>  npm init to create json file
+=> npm install --save express mysql dotenv cors
+=> npm install --save-dev nodemon
+=>  npm start ... to see if database is connected or not
+=> to generate token :  node
+> require('crypto').randomBytes(8).toString('hex')
+'b763f55f4bcae63c'
+=> 
