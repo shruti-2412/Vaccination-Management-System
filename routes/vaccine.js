@@ -1,5 +1,5 @@
 import express from 'express';
-import connection from '../connection.cjs';
+import connection  from '../connection.cjs';
 const router = express.Router();
 import dotenv from 'dotenv';
 dotenv.config();
@@ -64,6 +64,18 @@ router.get('/get', auth.authenticateToken,(req,res)=>{
         }else return res.status(500).json(err);
     })
 })
+
+router.get('/vac/:id',auth.authenticateToken,(req,res)=>{
+    let id=req.params.id;
+    var query ="select * from vaccine where Vcode=?";
+    connection.query(query,[id],(err,results)=>{
+        if(!err){
+            return res.status(200).json(results);
+        }else return res.status(500).json(err);
+    })
+})
+
+// this will run the procedure which will calculate the age of the benificiary and then will show the vaccines only which are suitable for him/her
 router.get('/getvac/:id',auth.authenticateToken,(req,res)=>{
    let vac =req.params.id;
    let query =" call getVac(?)";
@@ -72,6 +84,15 @@ router.get('/getvac/:id',auth.authenticateToken,(req,res)=>{
         return res.status(200).json(results[1])
     }else return res.status(500).json(err);
    })
+})
+router.get('/vacview',(req,res)=>{
+    let query= "select * from vacView";
+    connection.query(query,(err,results)=>{
+        if(!err){
+            console.log(results)
+           return res.status(200).json(results)
+        }else return res.status(500).json({message:"View can't be loaded"})
+    })
 })
 
 

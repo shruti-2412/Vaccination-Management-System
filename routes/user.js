@@ -41,7 +41,7 @@ router.post('/signup', (req, res) => {
 
 router.post('/login', (req, res) => {
     let user = req.body;
-    let query = 'select phnum,password from userlogin where phnum=?'
+    let query = 'select phnum,password,role from userlogin where phnum=?'
     connection.query(query, [user.phnum], (err, results) => {
         if (!err) {
             if (results.length <= 0 || results[0].password != user.password) {
@@ -50,7 +50,8 @@ router.post('/login', (req, res) => {
             else if (results[0].password == user.password) {
                 const response = { phnum: results[0].phnum ,role:results[0].role}
                 const accessToken = jwt.sign(response, process.env.ACCESS_TOKEN, { expiresIn: '8h' })
-                res.status(200).json({ token: accessToken });
+                console.log(response.role)
+                return res.status(200).json({ token: accessToken,role:response.role });
                 //add role as 'user or admin' as an attribute
             } else {
                 return res.status(400).json({ message: "Something went wrong, please try again later" });

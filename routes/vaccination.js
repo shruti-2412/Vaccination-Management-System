@@ -42,4 +42,19 @@ router.post('/add',auth.authenticateToken,(req,res)=>{
 
     
 })
+
+router.get('/prev/:benf_id/:Vcode/:Dose_No',(req,res)=>{
+    
+    console.log("In api")
+    let query ="select * from vaccination where benf_id=? and Vcode=? and Dose_No=?"
+    connection.query(query,[req.params.benf_id,req.params.Vcode,req.params.Dose_No],(error,results)=>{
+        if(!error){
+            return res.status(200).json(results);
+        }else return res.status(500).json(error)
+    })
+
+})
+
+
+
 export default router

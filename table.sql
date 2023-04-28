@@ -20,12 +20,12 @@ create table benificiary(
 --  view for user
 
 CREATE VIEW vacView AS
-SELECT vaccine.vcode, vaccine.name, manufacturing.manufacturer
+SELECT vaccine.vcode, vaccine.Vname, manufacturing.manufacturer
 FROM vaccine
 INNER JOIN manufacturing
 ON vaccine.vcode = manufacturing.vcode;
 
-select * from vaccine where 0.2>from_age and 0.2<to_age; 
+
 
 
 
@@ -77,3 +77,7 @@ select * from manufacturing where Exp_Dt < curdate();
 End //
 Delimiter;
 Call get_expired();
+
+-- Count no of users
+-- count number of vaccine
+-- search a vaccine

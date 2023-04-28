@@ -1,5 +1,40 @@
 
 
+fetch("http://localhost:5000/vaccine/vacview")
+  .then(response => {
+    if (response.ok) {
+      return response.json()
+    } else {
+      console.log(response.status)
+      throw new Error('Network response was not ok.');
+    }
+  })
+  .then(data => {
+    console.log(data)
+    let view = document.getElementById('view');
+    data.forEach(vaccine => {
+      let html = `
+      <li>
+    <div class="details">
+      <h5>${vaccine.Vname}</h5><br>
+      <h6>Manufacturer : ${vaccine.manufacturer}</h6><br>
+      <p>Vaccine Code : ${vaccine.vcode}</p>
+    </div>
+  </li>
+      `
+      view.innerHTML += html;
+
+
+    })
+  }).catch(error => {
+    console.log(error)
+    alert("Something went wrong!")
+  })
+
+
+
+
+
 let sign = document.getElementById('signup');
 let login = document.getElementById('login');
 let phonenum;
@@ -132,10 +167,14 @@ function logIn() {
         .then(data => {
           token = data.token;
           console.log('Success:', data);
-          alert("Logged in successfully")
           login.innerHTML = ''
-          // Handle successful response here
-          benif();
+          if (data.role = 'U') {
+            alert("Logged in successfully as USER")
+            benif();
+          } else {
+            alert("Logged in successfully as ADMIN")
+            func()
+          }
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -151,15 +190,16 @@ function logIn() {
 
 
 function benif() {
+
   let html1 = ` <div class="card text-center">
 
   <div class="card-header">
     <div class="openBtn">
-      <button class="openButton" onclick="openForm1()" class="btn btn-primary">Book Vaccine</button><br>
+      <button class="openButton"  class="btn btn-primary" id="vacbook">Book Vaccine</button><br>
     </div>
     We provide vaccines for benificiaries from age of 0 to age of 18 yrs
     <div class="openBtn">
-        <button class="openButton" onclick="openForm2()" class="btn btn-primary">Add Benificiary</button>
+        <button class="openButton"  class="btn btn-primary" id="addben">Add Benificiary</button>
     </div>
   </div>
 
@@ -168,7 +208,7 @@ function benif() {
 
       <h2>To book vaccine</h2>
 
-      <form class="formContainer">
+      <form class="formContainer" id="formContainer0">
 
         <label>Enter the ID of Benificiary</label>
         <input type="text" id="benf_id" placeholder="Benificiary Id" name="benf_id" required>
@@ -176,7 +216,7 @@ function benif() {
 
       </form>
 
-      <form class="formContainer">
+      <form class="formContainer" id="formContainer1">
 
         <label>Select your vaccine</label>
         <select id="vaccine-select"></select>
@@ -185,7 +225,7 @@ function benif() {
         <br><br>
 
         <button type="submit" class="btn" id="book">Book</button>
-        <button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
+        <button type="button" class="btn cancel" id="close1">Close</button>
         
       </form>
     </div>
@@ -207,7 +247,7 @@ function benif() {
   </div>
     <div class="loginPopup">
       <div class="formPopup" id="popupForm2">
-        <form class="formContainer">
+        <form class="formContainer" id="formContainer2">
           <h2>Please add enough details!</h2>
 
           <input type="text" id="name" placeholder="Benificiary Name" name="name" required>
@@ -227,7 +267,7 @@ function benif() {
 
           <input type="text" id="adhar" placeholder="12 digit adhar number" name="adhar">
           <button type="submit" class="btn" id="add">Submit</button>
-          <button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
+          <button type="button" class="btn cancel" id="close2">Close</button>
         </form>
 
       </div>
@@ -235,97 +275,161 @@ function benif() {
     </div>
   
 </div> `
-  
+
   let ben = document.getElementById('benf');
   ben.innerHTML = html1;
   getBenf(phonenum)
-
+  document.getElementById('vacbook').addEventListener('click', openForm1)
+  document.getElementById('addben').addEventListener('click', openForm2)
+  document.getElementById('close1').addEventListener('click', closeForm1)
+  document.getElementById('close2').addEventListener('click', closeForm2)
   let benf_id;
-    document.getElementById('ok').addEventListener('click',(e)=>{
-      e.preventDefault();
+  document.getElementById('ok').addEventListener('click', (e) => {
+    e.preventDefault();
 
-     benf_id = document.getElementById('benf_id').value;
-     fetch(`http://localhost:5000/vaccine/getvac/${benf_id}`,{
+    benf_id = document.getElementById('benf_id').value;
+    fetch(`http://localhost:5000/vaccine/getvac/${benf_id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
     })
-        .then(response => response.json())
-        .then(data => {
-          // Get the select element
-          const select = document.getElementById('vaccine-select');
-          
-          // Add options for each vaccine
-          data.forEach(vaccine => {
-            const option = document.createElement('option');
-            option.text = vaccine.Vname;
-            option.value = vaccine.Vcode;
-            select.appendChild(option);
-          });
-        })
-        .catch(error => console.error(error));
-    })
+      .then(response => response.json())
+      .then(data => {
+        // Get the select element
+        const select = document.getElementById('vaccine-select');
 
-   
+        // Add options for each vaccine
+        data.forEach(vaccine => {
+          const option = document.createElement('option');
+          option.text = vaccine.Vname;
+          option.value = vaccine.Vcode;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => console.error(error));
+  })
 
-  let bookbtn=document.getElementById('book')
+
+
+  let bookbtn = document.getElementById('book')
   bookbtn.addEventListener('click', (e) => {
     e.preventDefault()
 
-
-    
     let Dose_No = document.getElementById('dose').value;
     let Vcode = document.getElementById('vaccine-select').value;
     var Reg_Dt = new Date();
     let year1 = Reg_Dt.getFullYear();
     let month1 = Reg_Dt.getMonth() + 1; // Add 1 to get month from 1-12 instead of 0-11
     let day1 = Reg_Dt.getDate();
-    Reg_Dt=year1+'-'+month1+'-'+day1
+    Reg_Dt = year1 + '-' + month1 + '-' + day1
 
     let Vacc_Dt = new Date();
     let year = Vacc_Dt.getFullYear();
     let month = Vacc_Dt.getMonth() + 1; // Add 1 to get month from 1-12 instead of 0-11
-    let day = Vacc_Dt.getDate()+2;
-    Vacc_Dt=year+'-'+month+'-'+day
+    let day = Vacc_Dt.getDate() + 2;
+    Vacc_Dt = year + '-' + month + '-' + day
 
-    let details={benf_id,Vcode,Reg_Dt,Dose_No,Vacc_Dt}
+    let details = { benf_id, Vcode, Reg_Dt, Dose_No, Vacc_Dt }
+    let bod={ benf_id, Vcode, Dose_No }
     console.log(details)
-    fetch('http://localhost:5000/vaccination/add',{
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + token,
-        Accept: "application/json,text/plain, */*",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(details)
-    })
+    var allow = 0;
 
-    .then(response=>{
-      if (response.ok) {
-        // Handle a successful response here (status code between 200 and 299)
-        console.log(response.status);
-        return response.json();
-      } else {
-        // Handle an unsuccessful response here (status code outside of 200 to 299)
-        console.log(response.status);
-        throw new Error('Network response was not ok.');
+    fetch(`http://localhost:5000/vaccine/vac/${Vcode}`, {
+      headers: {
+        Authorization: 'Bearer ' + token
       }
     })
-    .then(data=>{
-      alert(`Vaccine booked successfully- Benificiary will be vaccinated after two days from todays date i.e. on ${data.Vacc_Dt} at our location`)
-      closeForm1() 
-    })
-    .catch(
-      error => {
-        e.preventDefault()
-        console.error('Error:', error.value);
-        alert(`try again!`)
+      .then(response => {
+        if (response.ok) {
+          // Handle a successful response here (status code between 200 and 299)
+          console.log(response.status);
+          return response.json();
+        } else {
+          // Handle an unsuccessful response here (status code outside of 200 to 299)
+          console.log(response.status);
+          throw new Error('Network response was not ok.');
+        }
+      })
+      .then(data => {
+        data.forEach(data => {
+          if (data.No_of_Doses < Dose_No) {
+            console.log("fir", allow)
+            alert("Enough number of doses have already been taken!")
+          }
+          else {
+            console.log("In prev fetch")
+            fetch(`http://localhost:5000/vaccination/prev/${benf_id}/${Vcode}/${Dose_No}`).then(response => {
+              if (response.ok) {
+                // Handle a successful response here (status code between 200 and 299)
+                console.log(response.status);
+                return response.json()
+              } else {
+                // Handle an unsuccessful response here (status code outside of 200 to 299)
+                console.log(response.status);
+                throw new Error('Network response was not ok.');
+              }
+            }).then(data => {
         
+              if (data.length>0) {
+                  alert("This dose of vaccine is already been taken")
+                  document.getElementById('formContainer1').reset();
+                  document.getElementById('formContainer0').reset();
+                  document.getElementById("vaccine-select").innerHTML = '';
+                  closeForm1()
+              } else {
+                  console.log("In addition")
+                fetch('http://localhost:5000/vaccination/add', {
+                  method: 'POST',
+                  headers: {
+                    Authorization: 'Bearer ' + token,
+                    Accept: "application/json,text/plain, */*",
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify(details)
+                })
+
+                  .then(response => {
+                    if (response.ok) {
+                      // Handle a successful response here (status code between 200 and 299)
+                      console.log(response.status);
+                      return response.json();
+                    } else {
+                      // Handle an unsuccessful response here (status code outside of 200 to 299)
+                      console.log(response.status);
+                      throw new Error('Network response was not ok.');
+                    }
+                  })
+                  .then(data => {
+                    alert(`Vaccine booked successfully- Benificiary will be vaccinated after two days from todays date i.e. on ${data.Vacc_Dt} at our location`)
+                    document.getElementById('formContainer1').reset();
+                    document.getElementById('formContainer0').reset();
+                    document.getElementById("vaccine-select").innerHTML = '';
+                    closeForm1()
+                  })
+                  .catch(
+                    error => {
+                      // e.preventDefault()
+                      console.error('Error:', error.value);
+                      alert(`Make sure benficiary can't book vaccine more than one time.`)
+                      document.getElementById('formContainer1').reset();
+                      document.getElementById('formContainer0').reset();
+                      document.getElementById("vaccine-select").innerHTML = '';
+                      closeForm1()
+                    })
+
+              }
+            })
+          }
+        })
+
       })
 
+
+
+
   })
-  
-// this is for vaccination table
+
+  // this is for vaccination table
 
 
   let add = document.getElementById('add');
@@ -334,14 +438,14 @@ function benif() {
     e.preventDefault()
     const name = document.getElementById('name').value;
     const address = document.getElementById('addr').value;
-    const adharNum = document.getElementById('adhar').value;
+    let adharNum = document.getElementById('adhar').value;
 
     const dob = document.getElementById("date").value;
 
 
 
     const genderGroup = document.querySelector('input[name="gender"]:checked');
-
+    let gender;
     // Check which radio button was chosen
     if (genderGroup.value === "male") {
       gender = 'M'
@@ -350,7 +454,7 @@ function benif() {
     } else {
       gender = 'O'
     }
-
+    document.getElementById('formContainer2').reset();
     closeForm2();
     const phnum = phonenum;
     console.log(adharNum)
@@ -379,6 +483,7 @@ function benif() {
           // Handle an unsuccessful response here (status code outside of 200 to 299)
 
           throw new Error('Network response was not ok.');
+          document.getElementById('formContainer2').reset();
         }
 
       })
@@ -390,12 +495,12 @@ function benif() {
       .catch((error) => {
         console.error('Error:', error.value);
         alert(`try again!`)
-
+        document.getElementById('formContainer2').reset();
         // Handle error response here
       });
 
   })
- // till this benifiacairy data will be added/get
+  // till this benifiacairy data will be added/get
 }
 
 let count;
@@ -433,7 +538,7 @@ function getBenf(phoneNum) {
         let dob = data.DOB
         let gender = data.gender
         let phnum = data.phnum
-        let adhar = data.AdharNum
+        let adhar = data.adharNum
         count += 1;
         id.innerHTML = id.innerHTML + `
             <li>
@@ -471,12 +576,13 @@ function getBenf(phoneNum) {
 function openForm1() {
   document.getElementById("popupForm1").style.display = "block";
   console.log("clicked book")
-    if (list.length <= 0) {
-      alert("First add the benificiary details!!!")
-      closeForm1()
-    }
+  if (list.length <= 0) {
+    alert("First add the benificiary details!!!")
+    closeForm1()
+  }
 
 }
+
 function closeForm1() {
   document.getElementById("popupForm1").style.display = "none";
 }
@@ -488,57 +594,3 @@ function closeForm2() {
 }
 
 
-function bookin() {
-  bookbtn.addEventListener('click', (e) => {
-    e.preventDefault()
-    console.log("clicked book")
-    if (list.length <= 0) {
-      alert("First add the benificiary details!!!")
-      closeForm1()
-    }
-    let benf_id = document.getElementById('benf_if').value;
-    let vacode = document.getElementById('vcode').value;
-    let dose_No = document.getElementById('dose').value;
-
-    var reg_dt = new Date();
-    var dd = String(reg_dt.getDate()).padStart(2, '0');
-    var mm = String(reg_dt.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = reg_dt.getFullYear();
-
-    reg_dt = yyyy + '/' + mm + '/' + dd;
-    var today = new Date();
-    let vacc_dt = yyyy + '/' + mm + '/' + String(reg_dt.getDate()+2);
-
-    fetch('https://localhost:5000/vaccination/add',{
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + token,
-        Accept: "application/json,text/plain, */*",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-    .then(response=>{
-      if (response.ok) {
-        // Handle a successful response here (status code between 200 and 299)
-        console.log(response.status);
-
-        return response.json();
-      } else {
-        // Handle an unsuccessful response here (status code outside of 200 to 299)
-
-        throw new Error('Network response was not ok.');
-      }
-    })
-    .then(data=>{
-
-    })
-    .catch(
-      error => {
-        console.error('Error:', error.value);
-        alert(`try again!`)
-
-      })
-
-  })
-}
