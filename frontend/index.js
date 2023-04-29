@@ -1,5 +1,4 @@
-
-
+import {func} from './admin.js'
 fetch("http://localhost:5000/vaccine/vacview")
   .then(response => {
     if (response.ok) {
@@ -113,6 +112,7 @@ function signUp() {
 login.addEventListener('click', logIn);
 function logIn() {
   sign.disabled = true;
+  
   let html = `
     <form id="LoginForm>
   <div >
@@ -128,8 +128,8 @@ function logIn() {
   <button type="submit" id="submit">Submit</button>
 </form>
     `
-  let login = document.getElementById('log')
-  login.innerHTML = html
+  let logi = document.getElementById('log')
+  logi.innerHTML = html
 
   const phoneInput = document.querySelector('#exampleInputNumber1');
   const passwordInput = document.querySelector('#exampleInputPassword1');
@@ -156,10 +156,11 @@ function logIn() {
           if (response.ok) {
             // Handle a successful response here (status code between 200 and 299)
             console.log(response.status);
+            
             return response.json();
           } else {
             // Handle an unsuccessful response here (status code outside of 200 to 299)
-            login.innerHTML = ''
+            logi.innerHTML = ''
             throw new Error('Network response was not ok.');
           }
 
@@ -167,19 +168,22 @@ function logIn() {
         .then(data => {
           token = data.token;
           console.log('Success:', data);
-          login.innerHTML = ''
-          if (data.role = 'U') {
+          logi.innerHTML = ''
+          login.disabled = true;
+          if (data.role == 'U') {
             alert("Logged in successfully as USER")
+           
             benif();
           } else {
             alert("Logged in successfully as ADMIN")
+         
             func()
           }
         })
         .catch((error) => {
           console.error('Error:', error);
           alert(`try again!`)
-          login.innerHTML = ''
+          logi.innerHTML = ''
           // Handle error response here
         });
     } else alert("No null values inside phone number and pasword can be submitted!!")
@@ -481,9 +485,9 @@ function benif() {
           return response.json();
         } else {
           // Handle an unsuccessful response here (status code outside of 200 to 299)
-
-          throw new Error('Network response was not ok.');
           document.getElementById('formContainer2').reset();
+          throw new Error('Network response was not ok.');
+          
         }
 
       })
@@ -546,7 +550,7 @@ function getBenf(phoneNum) {
             Benificiary Id:${lid} <br>
             Name: ${name} <br>
             Address: ${address}<br>
-            DOB: ${dob} <br>
+            DOB: ${dob}. <br>
             Gender:${gender} <br>
             Phone Number:${phnum} <br>
             Adhar Number:${adhar} <br>

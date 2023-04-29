@@ -3,7 +3,7 @@ import connection  from '../connection.cjs';
 const router = express.Router();
 import dotenv from 'dotenv';
 dotenv.config();
-import auth, { authenticateToken } from '../services/authentication.cjs';
+import auth from '../services/authentication.cjs';
 
 router.post('/add', auth.authenticateToken, (req, res) => {
     let ben = req.body;
@@ -54,10 +54,11 @@ router.delete('/delete/:id',auth.authenticateToken,(req,res,next)=>{
         }else return res.status(500).json(err);
     })
 })
-router.get('/get', auth.authenticateToken,(req,res)=>{
+router.get('/get',(req,res)=>{
 
     // let user= req.body;
-    var query ="select * from vaccine";
+    var query =`select v.Vcode,m.LotNo, v.Vname,m.Manufacturer,v.Availability,m.Manuft_Dt,m.Exp_Dt from 
+    vaccine as v join manufacturing as m on v.LotNo=m.LotNo;`;
     connection.query(query,(err,results)=>{
         if(!err){
             return res.status(200).json(results);
@@ -89,11 +90,35 @@ router.get('/vacview',(req,res)=>{
     let query= "select * from vacView";
     connection.query(query,(err,results)=>{
         if(!err){
-            console.log(results)
+            // console.log(results)
            return res.status(200).json(results)
         }else return res.status(500).json({message:"View can't be loaded"})
     })
 })
+
+router.get('/expired',(req,res)=>{
+    let query =" call get_expired()";
+    connection.query(query,(err,results)=>{
+     if(!err){
+        console.log(results[0])
+         return res.status(200).json(results[0])
+     }else return res.status(500).json(err);
+    })
+ })
+router.get('/zero',(req,res)=>{
+    let query=`SELECT vaccine.Vcode, vaccine.Vname, vaccine.LotNo, manufacturing.Manufacturer
+    FROM vaccine
+    INNER JOIN manufacturing ON vaccine.LotNo = manufacturing.LotNo
+    WHERE vaccine.availability = 0;
+    `
+    connection.query(query,(err,results)=>{
+        if(!err){
+            return res.status(200).json(results[1])
+        }else return res.status(500).json(err);
+       })
+})
+
+
 
 
 export default router
