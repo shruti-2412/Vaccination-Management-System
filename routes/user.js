@@ -25,6 +25,10 @@ router.post('/signup', (req, res) => {
                     }
                     else {
                         return res.status(500).json(err)
+
+
+
+
                     }
 
                 })

@@ -1,13 +1,18 @@
 
 let menu = document.getElementById('menu')
 let html = `
-<ul style="list-style: none;">
-<li><button id="booking">Bookings Till Date</button></li> 
-<li><button id="vaccines">Vaccine Data</button></li>
-<li><button id="done">Vaccination Done Today</button></li>
-<li><button id="expired">Expired Vaccines</button></li>
-<li><button id="unavail">Unavailable Vaccines</button></li>
+<div class="card border-primary mb-3" >
+<div class="card-body">
+  <ul style="list-style: none; display:flex; justify-content:center ;" >
+    <li><button id="booking" class="btn btn-outline-success">Bookings Till Date</button></li> 
+<li><button id="vaccines" class="btn btn-outline-success" >Vaccine Data</button></li>
+<li><button id="done" class="btn btn-outline-success">Vaccination Done Today</button></li>
+<li><button id="expired" class="btn btn-outline-success">Expired Vaccines</button></li>
+<li><button id="unavail" class="btn btn-outline-success">Unavailable Vaccines</button></li>
 </ul>
+</div>
+</div>
+
 `
 
 export function func() {
@@ -18,21 +23,27 @@ export function func() {
   document.getElementById('booking').addEventListener('click', () => {
 
     let con = `
-<table class="table">
-<thead class="thead-dark">
-  <tr>
-    <th scope="col">Reg No</th>
-    <th scope="col">Name</th>
-    <th scope="col">Booking Date</th>
-    <th scope="col">Vaccination Date</th>
-    <th scope="col">Vaccine</th>
-    <th scope="col">Dose</th>
-  </tr>
-</thead>
-<tbody id="cont">
+    <div class="card border-secondary mb-4">
+      <div class="card-body">  
+      <h4 style="text-align:center;"> Bookings Till Date </h4> <br>
+      <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Reg No</th>
+          <th scope="col">Name</th>
+          <th scope="col">Booking Date</th>
+          <th scope="col">Vaccination Date</th>
+          <th scope="col">Vaccine</th>
+          <th scope="col">Dose</th>
+        </tr>
+      </thead>
+      <tbody id="cont">
+      
+      </tbody>
+      </table>
+      </div>
+    </div>
 
-</tbody>
-</table>
 `
 
     let content = document.getElementById('content')
@@ -73,7 +84,12 @@ export function func() {
   document.getElementById('vaccines').addEventListener('click', () => {
 
     let con = `
-<table class="table">
+
+    <div class="card border-primary mb-3">
+      <div class="card-body">   
+      <h4 style="text-align:center;"> Vaccine Data </h4>
+      <br>
+      <table class="table">
 <thead class="thead-dark">
   <tr>
     <th scope="col">Vaccine code</th>
@@ -88,6 +104,9 @@ export function func() {
 <tbody id="cont">
 </tbody>
 </table>
+      </div>
+    </div>
+
 `
 
     let content = document.getElementById('content')
@@ -132,7 +151,10 @@ export function func() {
   document.getElementById('done').addEventListener('click', () => {
 
     let con = `
-  <table class="table">
+    <div class="card border-primary mb-3">
+      <div class="card-body">   
+      <h4 style=" text-align:center;"> Vaccination Done Today </h4><br>
+      <table class="table">
   <thead class="thead-dark">
     <tr>
       <th scope="col">Reg No</th>
@@ -147,6 +169,10 @@ export function func() {
   
   </tbody>
   </table>
+      </div>
+    </div>
+
+  
   `
 
     let content = document.getElementById('content')
@@ -188,22 +214,22 @@ export function func() {
   document.getElementById('unavail').addEventListener('click', () => {
 
     let con = `
-<table class="table">
+    <div class="card border-primary mb-3">
+      <div class="card-body">   
+      <h4 style=" text-align:center;"> Unavailable Vaccines </h4><br>
+      <table class="table">
 <thead class="thead-dark">
   <tr>
     <th scope="col">Vaccine code</th>
     <th scope="col">Lot Number</th>
     <th scope="col">vaccine Name</th>
     <th scope="col">Manufacturer</th>
-    <th scope="col">Availability</th>
-    <th scope="col">Manufacturing Date</th>
-    <th scope="col">Expiry Date</th>
   </tr>
 </thead>
 <tbody id="cont">
 </tbody>
 </table>
-<button id="new">Add new Lot</button>
+<button id="new" class="btn btn-outline-primary">Add new Lot</button>
 <div class="loginPopup">
       <div class="formPopup" id="popupForm">
         <form class="formContainer" id="formContainer" name="myform">
@@ -211,8 +237,10 @@ export function func() {
 
           <input type="text" id="lot" placeholder="Lot Number" name="lot" required>
           <input type="text" id="manuf" placeholder="Manufacturer" name="manuf" required>
-          <input type="date" id="mandt" placeholder="Man. Date" name="mandt">
-          <input type="date" id="expdt" placeholder="exp. Date" name="expdt">
+          <label for="mandt">Manufacturing Date</label><br>
+          <input type="date" id="mandt" placeholder="Man. Date" name="mandt"><br>
+          <label for="expdt">Expiry Date</label><br>
+          <input type="date" id="expdt" placeholder="exp. Date" name="expdt"><br>
           <input type="number" id="vcode" placeholder="Vaccine Code" name="vcode">
           <input type="number" id="avail" placeholder="Number of Vaccines to add" name="avail">
           <button type="submit" class="btn" id="submit">Submit</button>
@@ -222,6 +250,9 @@ export function func() {
       </div>
 
     </div>
+      </div>
+    </div>
+
 
 `
 
@@ -242,17 +273,12 @@ export function func() {
       .then(data => {
 
         data.forEach(data => {
-          let r = new Date(data.Manuft_Dt).getDate() + '/' + new Date(data.Manuft_Dt).getMonth() + '/' + new Date(data.Manuft_Dt).getFullYear()
-          let v = new Date(data.Exp_Dt).getDate() + '/' + new Date(data.Exp_Dt).getMonth() + '/' + new Date(data.Exp_Dt).getFullYear()
           cont.innerHTML += `
             <tr>
             <th scope="row">${data.Vcode}</th>
             <td>${data.LotNo}</td>
             <td>${data.Vname}</td>
             <td>${data.Manufacturer}</td>
-            <td>${data.Availability}</td>
-            <td>${r}</td>
-            <td>${v}</td>
           </tr>
             `
         })
@@ -288,11 +314,12 @@ export function func() {
             if (response.ok) {
               // Handle a successful response here (status code between 200 and 299)
               console.log(response.status);
-  
+              console.log(details)
               return response.json();
             } else {
               // Handle an unsuccessful response here (status code outside of 200 to 299)
-              document.getElementById('formContainer').reset();
+              // document.getElementById('formContainer').reset();
+              
               throw new Error('Network response was not ok.');
   
             }
@@ -302,6 +329,9 @@ export function func() {
             document.getElementById('formContainer').reset();
             document.getElementById("popupForm").style.display = "none";
             alert("Data added succesfully")
+          }).catch(error=>{
+            console.error('Error:', error.value);
+            alert('Add relevant data. Make sure vaccine code is correct, no null value is passed or even unique lot number is added')
           })
         })
   
@@ -317,7 +347,10 @@ export function func() {
   document.getElementById('expired').addEventListener('click', () => {
 
     let con = `
-<table class="table">
+    <div class="card border-secondary mb-3">
+      <div class="card-body">   
+      <h4 style=" text-align:center;"> Expired Vaccine Data </h4><br>
+      <table class="table">
 <thead class="thead-dark">
   <tr>
     <th scope="col">Vaccine code</th>
@@ -332,7 +365,7 @@ export function func() {
 </tbody>
 </table>
 
-<button id="new">Add new Lot</button>
+<button id="new" class="btn btn-outline-primary">Add new Lot</button>
 <div class="loginPopup">
       <div class="formPopup" id="popupForm">
         <form class="formContainer" id="formContainer" name="myform">
@@ -340,10 +373,12 @@ export function func() {
 
           <input type="text" id="lot" placeholder="Lot Number" name="lot" required>
           <input type="text" id="manuf" placeholder="Manufacturer" name="manuf" required>
-          <input type="date" id="mandt" placeholder="Man. Date" name="mandt">
-          <input type="date" id="expdt" placeholder="exp. Date" name="expdt">
-          <input type="number" id="vcode" placeholder="Vaccine Code" name="vcode">
-          <input type="number" id="avail" placeholder="Number of Vaccines to add" name="avail">
+          <label for="mandt">Manufacturing Date</label><br>
+          <input type="date" id="mandt" placeholder="Man. Date" name="mandt"><br>
+          <label for="expdt">Expiry Date</label><br>
+          <input type="date" id="expdt" placeholder="exp. Date" name="expdt"><br>
+          <input type="number" id="vcode" placeholder="Vaccine Code" name="vcode" required>
+          <input type="number" id="avail" placeholder="Number of Vaccines to add" name="avail" required>
           <button type="submit" class="btn" id="submit">Submit</button>
           <button type="button" class="btn cancel" id="close">Close</button>
         </form>
@@ -351,6 +386,10 @@ export function func() {
       </div>
 
     </div>
+      </div>
+    </div>
+
+
 
 `
 

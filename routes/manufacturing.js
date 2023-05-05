@@ -10,7 +10,8 @@ router.post('/addLot',(req,res)=>{
     // Lot_No,_Manufacturer,ManufDt,ExpDt, Availability, Vcode
     let b=req.body 
     let query="call insertManuf_updateVaccine(?,?,?,?,?,?)"
-    connection.query(query,[b.LotNo,b.Manufacturer,b.Manuft_Dt,b.Exp_Dt,b.Vcode,b.Availability],(err,results)=>{
+    connection.query(query,[b.Lot_No,b.Manufacturer,b.Manuf_Dt,b.Exp_Dt,b.Vcode,b.Availability],(err,results)=>{
+        
         if(!err){
             return res.status(200).json({message:"Manufcturing details updated successfully"})
         }

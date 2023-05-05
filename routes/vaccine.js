@@ -100,7 +100,7 @@ router.get('/expired',(req,res)=>{
     let query =" call get_expired()";
     connection.query(query,(err,results)=>{
      if(!err){
-        console.log(results[0])
+        // console.log(results[0])
          return res.status(200).json(results[0])
      }else return res.status(500).json(err);
     })
@@ -111,9 +111,10 @@ router.get('/zero',(req,res)=>{
     INNER JOIN manufacturing ON vaccine.LotNo = manufacturing.LotNo
     WHERE vaccine.availability = 0;
     `
+
     connection.query(query,(err,results)=>{
         if(!err){
-            return res.status(200).json(results[1])
+            return res.status(200).json(results)
         }else return res.status(500).json(err);
        })
 })

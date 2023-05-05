@@ -7,18 +7,17 @@ import auth, { authenticateToken } from '../services/authentication.cjs';
 
 router.post('/add', auth.authenticateToken, (req, res) => {
     let ben = req.body;
-    console.log(ben)
+    
     let query = 'select * from benificiary where phnum=? and name=? and address=?'
     connection.query(query, [ben.phnum, ben.name, ben.address], (err, results) => {
-     console.log("hello")
+     
         if (!err) {
             if (results.length <= 0) {
-                console.log("hello2")
-                console.log(ben.gender)
-                let query = 'insert into benificiary(name,address,dob,gender,phnum,adharNum) values(?,?,?,?,?,?)';
+                
+                let query = "insert into benificiary(name,address,dob,gender,phnum,adharNum) values(?,?,?,?,?,NULLIF(?, ''))";
                 connection.query(query, [ben.name, ben.address, ben.dob, ben.gender, ben.phnum, ben.adharNum], (err, results) => {
                     if (!err) {
-                        console.log("hello3")
+                      
                         return res.status(200).json({ message: "Successfully benificiary has been added." })
                     }
                     else {

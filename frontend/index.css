@@ -1,5 +1,5 @@
  *{
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   display: flexbox;
 }
 .openBtn {
@@ -13,7 +13,9 @@
   color: white;
   padding: 14px 20px;
   cursor: pointer;
-  position: fixed;
+  padding: 10px;
+ 
+  /* position: fixed; */
 }
 .loginPopup {
   position: relative;
@@ -64,4 +66,58 @@
 .formContainer .btn:hover,
 .openButton:hover {
   opacity: 1;
+}
+.card-header{
+ /* background-color: #ff5b5b;
+  */
+  display: flex;
+  height: 60px;
+  justify-content: center;
+
+  background-color: #fff8ab;
+  
+}
+#head{
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 25px;
+}
+.custom-bg {
+  background-color: #fffde6; /* Replace with your desired color */
+}
+
+.card-footer{
+  background-color: #fff8ab;
+}
+
+.benific{
+  background-color: white;
+  /* border: 2px solid black; */
+  border-radius: 20px;
+  padding: 15px;
+}
+
+#mainn{
+  display: flex;
+}
+#sup{
+ 
+  margin-left: 600px;
+}
+#lup{
+  padding-left: 30px;
+
+}
+
+#view{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#vacview{
+  height:250px;
+   width:250px;
+   padding: 15px;
+   margin: 15px;
+   background-color: #e8ffd0;
 }

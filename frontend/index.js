@@ -1,4 +1,4 @@
-import {func} from './admin.js'
+import { func } from './admin.js'
 fetch("http://localhost:5000/vaccine/vacview")
   .then(response => {
     if (response.ok) {
@@ -13,13 +13,17 @@ fetch("http://localhost:5000/vaccine/vacview")
     let view = document.getElementById('view');
     data.forEach(vaccine => {
       let html = `
-      <li>
-    <div class="details">
+      
+    
+    <div class="card" id="vacview">
+      <div class="card-body">   
       <h5>${vaccine.Vname}</h5><br>
-      <h6>Manufacturer : ${vaccine.manufacturer}</h6><br>
+      <p>Manufacturer :<h6> ${vaccine.manufacturer}</h6></p><br>
       <p>Vaccine Code : ${vaccine.vcode}</p>
+      </div>
     </div>
-  </li>
+   
+  
       `
       view.innerHTML += html;
 
@@ -45,7 +49,10 @@ sign.addEventListener('click', signUp);
 function signUp() {
   login.disabled = true;
   let html = `
-    <form id="signForm>
+
+  <div class="card border-primary mb-3" style="position: absolute;top: 50px;z-index: 1;">
+  <div class="card-body" id="content">   
+  <form id="signForm>
   <div >
     <label for="exampleInputEmail1"  id="phnum">Phone Number</label>
     <input type="number"  id="exampleInputNumber1" aria-describedby="emailHelp">
@@ -58,6 +65,10 @@ function signUp() {
  
   <button type="submit" id="submit">Submit</button>
 </form>
+
+  </div>
+</div>
+   
     `
   let sign = document.getElementById('sign')
   sign.innerHTML = html
@@ -70,7 +81,9 @@ function signUp() {
     // e.preventDefault()
     const phnum = phoneInput.value;
     const password = passwordInput.value;
-    if (phnum != '' && password != '') {
+
+
+    if (phnum != '' && password != '' && phnum.length == 10) {
       const data = { phnum, password };
 
       fetch(`http://localhost:5000/user/signup`, {
@@ -85,6 +98,7 @@ function signUp() {
           if (response.ok) {
             // Handle a successful response here (status code between 200 and 299)
             console.log(response.status);
+            login.disabled = false;
             return response.json();
           } else {
             // Handle an unsuccessful response here (status code outside of 200 to 299)
@@ -95,6 +109,7 @@ function signUp() {
         .then(data => {
           console.log('Success:', data);
           alert("Signed up successfully")
+          // login.disabled = false;
           // Handle successful response here
           sign.innerHTML = '';
         })
@@ -103,7 +118,11 @@ function signUp() {
           alert(`Add the correct 10 digit phone number which is not already used!`)
           // Handle error response here
         });
-    } else alert("No null values inside phone number and pasword can be submitted!!")
+    } else {
+
+      alert("Make sure the phone number has 10 digits or no null value is passed in as number or password !!")
+    }
+
   })
 }
 
@@ -112,21 +131,27 @@ function signUp() {
 login.addEventListener('click', logIn);
 function logIn() {
   sign.disabled = true;
-  
+
   let html = `
-    <form id="LoginForm>
-  <div >
-    <label for="exampleInputEmail1"  id="phnum">Phone Number</label>
-    <input type="number"  id="exampleInputNumber1" aria-describedby="emailHelp">
-    <div id="emailHelp" >We'll never share your number with anyone else.</div>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1"  id="pass">Password</label>
-    <input type="password"  id="exampleInputPassword1">
-  </div>
- 
-  <button type="submit" id="submit">Submit</button>
-</form>
+
+  <div class="card border-primary mb-3" style="position: absolute;top: 50px;z-index: 1;">
+      <div class="card-body " id="content">  
+      <form id="LoginForm>
+      <div >
+        <label for="exampleInputEmail1"  id="phnum">Phone Number</label>
+        <input type="number"  id="exampleInputNumber1" aria-describedby="emailHelp">
+        <div id="emailHelp" >We'll never share your number with anyone else.</div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1"  id="pass">Password</label>
+        <input type="password"  id="exampleInputPassword1">
+      </div>
+     
+      <button type="submit" id="submit">Submit</button>
+    </form>
+      </div>
+    </div>
+    
     `
   let logi = document.getElementById('log')
   logi.innerHTML = html
@@ -156,7 +181,7 @@ function logIn() {
           if (response.ok) {
             // Handle a successful response here (status code between 200 and 299)
             console.log(response.status);
-            
+
             return response.json();
           } else {
             // Handle an unsuccessful response here (status code outside of 200 to 299)
@@ -172,11 +197,11 @@ function logIn() {
           login.disabled = true;
           if (data.role == 'U') {
             alert("Logged in successfully as USER")
-           
+
             benif();
           } else {
             alert("Logged in successfully as ADMIN")
-         
+
             func()
           }
         })
@@ -195,13 +220,13 @@ function logIn() {
 
 function benif() {
 
-  let html1 = ` <div class="card text-center">
+  let html1 = `   <div class="card text-center">
 
   <div class="card-header">
     <div class="openBtn">
       <button class="openButton"  class="btn btn-primary" id="vacbook">Book Vaccine</button><br>
     </div>
-    We provide vaccines for benificiaries from age of 0 to age of 18 yrs
+    <p id="head">We provide vaccines for benificiaries from age of 0 to age of 18 yrs</p>
     <div class="openBtn">
         <button class="openButton"  class="btn btn-primary" id="addben">Add Benificiary</button>
     </div>
@@ -237,16 +262,16 @@ function benif() {
 
 
 
-  <div class="card-body">
+  <div class="card-body custom-bg">
     <h5 class="card-title">Benificiaries linked to this account</h5>
-
+      <br>
     <div>
-      <ul id="bnf"></ul>
+      <ul id="bnf" style=" list-style: none;"></ul>
     </div>
    
   </div>
  
-  <div class="card-footer">
+  <div class="card-footer ">
   <p>Add the details of benificiaries and book their vaccine.</p>
   </div>
     <div class="loginPopup">
@@ -278,7 +303,8 @@ function benif() {
 
     </div>
   
-</div> `
+</div>
+`
 
   let ben = document.getElementById('benf');
   ben.innerHTML = html1;
@@ -334,7 +360,7 @@ function benif() {
     Vacc_Dt = year + '-' + month + '-' + day
 
     let details = { benf_id, Vcode, Reg_Dt, Dose_No, Vacc_Dt }
-    let bod={ benf_id, Vcode, Dose_No }
+    let bod = { benf_id, Vcode, Dose_No }
     console.log(details)
     var allow = 0;
 
@@ -358,7 +384,7 @@ function benif() {
         data.forEach(data => {
           if (data.No_of_Doses < Dose_No) {
             console.log("fir", allow)
-            alert("Enough number of doses have already been taken!")
+            alert(`This particular vaccine has ${data.No_of_Doses} number of doses only.`)
           }
           else {
             console.log("In prev fetch")
@@ -373,15 +399,15 @@ function benif() {
                 throw new Error('Network response was not ok.');
               }
             }).then(data => {
-        
-              if (data.length>0) {
-                  alert("This dose of vaccine is already been taken")
-                  document.getElementById('formContainer1').reset();
-                  document.getElementById('formContainer0').reset();
-                  document.getElementById("vaccine-select").innerHTML = '';
-                  closeForm1()
+
+              if (data.length > 0) {
+                alert("This dose of vaccine is already been taken")
+                document.getElementById('formContainer1').reset();
+                document.getElementById('formContainer0').reset();
+                document.getElementById("vaccine-select").innerHTML = '';
+                closeForm1()
               } else {
-                  console.log("In addition")
+                console.log("In addition")
                 fetch('http://localhost:5000/vaccination/add', {
                   method: 'POST',
                   headers: {
@@ -404,7 +430,7 @@ function benif() {
                     }
                   })
                   .then(data => {
-                    alert(`Vaccine booked successfully- Benificiary will be vaccinated after two days from todays date i.e. on ${data.Vacc_Dt} at our location`)
+                    alert(`Vaccine booked successfully- Benificiary will be vaccinated after two days from todays date i.e. on ${details.Vacc_Dt} at our location`)
                     document.getElementById('formContainer1').reset();
                     document.getElementById('formContainer0').reset();
                     document.getElementById("vaccine-select").innerHTML = '';
@@ -433,7 +459,7 @@ function benif() {
 
   })
 
-  // this is for vaccination table
+  // this is for benificiary table
 
 
   let add = document.getElementById('add');
@@ -483,11 +509,15 @@ function benif() {
           console.log(response.status);
 
           return response.json();
-        } else {
+        } else if (response.status == 400) {
+          alert('Benificiary already added !')
+          throw new Error('Network response was not ok.');
+        }
+        else {
           // Handle an unsuccessful response here (status code outside of 200 to 299)
           document.getElementById('formContainer2').reset();
           throw new Error('Network response was not ok.');
-          
+
         }
 
       })
@@ -525,6 +555,7 @@ function getBenf(phoneNum) {
         // Handle a successful response here (status code between 200 and 299)
         console.log(response.status);
         return response.json();
+
       } else {
         // Handle an unsuccessful response here (status code outside of 200 to 299)
         throw new Error('Network response was not ok.');
@@ -540,23 +571,30 @@ function getBenf(phoneNum) {
         let name = data.name;
         let address = data.address
         let dob = data.DOB
+
+        const date = new Date(dob); // Assuming the date is in ISO format
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        const formattedDate = date.toLocaleDateString('en-US', options);
+        console.log(formattedDate); // Output: "7 May 2003"
+
+
         let gender = data.gender
         let phnum = data.phnum
         let adhar = data.adharNum
         count += 1;
         id.innerHTML = id.innerHTML + `
-            <li>
-            <div class="benific">
-            Benificiary Id:${lid} <br>
-            Name: ${name} <br>
-            Address: ${address}<br>
-            DOB: ${dob}. <br>
-            Gender:${gender} <br>
-            Phone Number:${phnum} <br>
-            Adhar Number:${adhar} <br>
-            
-              <br><br>
-          </div></li>
+        <li>
+        <div class="benific">
+        <br>
+        Benificiary Id: <strong>${lid}</strong> <br>
+        Name: <strong>${name}</strong> <br>
+        Address: <strong>${address}</strong> <br>
+        DOB: <strong>${formattedDate}</strong> <br>
+        Gender: <strong>${gender} </strong><br>
+        Phone Number: <strong>${phnum} </strong><br>
+        Adhar Number: <strong>${adhar} </strong><br>
+          
+      </div></li>
 
             `
 
