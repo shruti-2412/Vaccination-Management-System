@@ -14,14 +14,14 @@ import checkRole from '../services/checkRole.cjs';
 router.post('/add', auth.authenticateToken, (req, res) => {
     let vac = req.body;
     console.log(vac)
-    let query = " select * from vaccination where  benf_id=? and reg_dt=?"
+    let query = " select * from vaccination where  benf_id=? and reg_dt=? and PhNum=?"
 
-    connection.query(query, [vac.benf_id, vac.Reg_Dt], (error, result) => {
+    connection.query(query, [vac.benf_id, vac.Reg_Dt,vac.PhNum],(error, result) => {
         if (!error) {
 
             if (result.length <= 0) {
-                query = 'insert into vaccination(benf_id,vcode,reg_dt,dose_no,vacc_dt) values(?,?,?,?,?)';
-                connection.query(query, [vac.benf_id, vac.Vcode, vac.Reg_Dt, vac.Dose_No, vac.Vacc_Dt], (err, results) => {
+                query = 'insert into vaccination(benf_id,vcode,reg_dt,dose_no,vacc_dt,PhNum) values(?,?,?,?,?,?)';
+                connection.query(query, [vac.benf_id, vac.Vcode, vac.Reg_Dt, vac.Dose_No, vac.Vacc_Dt,vac.PhNum], (err, results) => {
                     if (!err) {
                         return res.status(200).json({ message: "Successfully Added" })
                     }
@@ -55,7 +55,7 @@ router.get('/prev/:benf_id/:Vcode/:Dose_No', (req, res) => {
 
 })
 router.get('/booking', (req, res) => {
-    let query = `SELECT v.Reg_No, b.name, v.Reg_Dt, v.Vacc_Dt, a.Vname, v.Dose_No
+    let query = `SELECT v.Reg_No, b.name, v.Reg_Dt, v.Vacc_Dt, a.Vname, v.Dose_No, v.PhNum
     FROM vaccination v
     JOIN vaccine a ON v.Vcode = a.Vcode
     JOIN benificiary b ON v.Benf_ID = b.Benf_ID;`
@@ -70,7 +70,7 @@ router.get('/booking', (req, res) => {
 
 router.get('/day', (req, res) => {
     let query = `
-    SELECT v.Reg_No, b.name, v.Reg_Dt, v.Vacc_Dt, a.Vname, v.Dose_No
+    SELECT v.Reg_No, b.name, v.Reg_Dt, v.Vacc_Dt, a.Vname, v.Dose_No, v.PhNum
     FROM vaccination v
     JOIN vaccine a ON v.Vcode = a.Vcode
     JOIN benificiary b ON v.Benf_ID = b.Benf_ID where v.Vacc_Dt=curdate() 

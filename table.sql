@@ -262,3 +262,6 @@ VALUES (
 --     '2021-12-23',
 --     '2022-05-18'
 --   );
+
+ -- benf_id | Vcode | Reg_Dt     | Dose_No | Vacc_Dt    | phnum
+insert into vaccination0 (benf_id, Vcode , Reg_Dt , Dose_No , Vacc_Dt ,phnum)values(10051,90625,'2023-5-6',1,'2023-5-8',9423192519)

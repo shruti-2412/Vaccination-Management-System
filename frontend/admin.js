@@ -35,6 +35,7 @@ export function func() {
           <th scope="col">Vaccination Date</th>
           <th scope="col">Vaccine</th>
           <th scope="col">Dose</th>
+          <th scope="col">Phone Number</th>
         </tr>
       </thead>
       <tbody id="cont">
@@ -63,8 +64,8 @@ export function func() {
 
 
         data.forEach(data => {
-          let r = new Date(data.Reg_Dt).getDate() + '/' + new Date(data.Reg_Dt).getMonth() + '/' + new Date(data.Reg_Dt).getFullYear()
-          let v = new Date(data.Vacc_Dt).getDate() + '/' + new Date(data.Vacc_Dt).getMonth() + '/' + new Date(data.Vacc_Dt).getFullYear()
+          let r = new Date(data.Reg_Dt).getDate() + '/' + (new Date(data.Reg_Dt).getMonth()+1) + '/' + new Date(data.Reg_Dt).getFullYear()
+          let v = new Date(data.Vacc_Dt).getDate() + '/' + (new Date(data.Vacc_Dt).getMonth() +1)+ '/' + new Date(data.Vacc_Dt).getFullYear()
           cont.innerHTML += `
             <tr>
             <th scope="row">${data.Reg_No}</th>
@@ -73,6 +74,7 @@ export function func() {
             <td>${v}</td>
             <td>${data.Vname}</td>
             <td>${data.Dose_No}</td>
+            <td>${data.PhNum}</td>
           </tr>
             `
         })
@@ -163,6 +165,7 @@ export function func() {
       <th scope="col">Vaccination Date</th>
       <th scope="col">Vaccine</th>
       <th scope="col">Dose</th>
+      <th scope="col">Phone Number</th>
     </tr>
   </thead>
   <tbody id="cont">
@@ -190,8 +193,8 @@ export function func() {
       })
       .then(data => {
         data.forEach(data => {
-          let r = new Date(data.Reg_Dt).getDate() + '/' + new Date(data.Reg_Dt).getMonth() + '/' + new Date(data.Reg_Dt).getFullYear()
-          let v = new Date(data.Vacc_Dt).getDate() + '/' + new Date(data.Vacc_Dt).getMonth() + '/' + new Date(data.Vacc_Dt).getFullYear()
+          let r = new Date(data.Reg_Dt).getDate() + '/' + (new Date(data.Reg_Dt).getMonth()+1) + '/' + new Date(data.Reg_Dt).getFullYear()
+          let v = new Date(data.Vacc_Dt).getDate() + '/' + (new Date(data.Vacc_Dt).getMonth()+1) + '/' + new Date(data.Vacc_Dt).getFullYear()
           cont.innerHTML += `
             <tr>
             <th scope="row">${data.Reg_No}</th>
@@ -200,6 +203,7 @@ export function func() {
             <td>${v}</td>
             <td>${data.Vname}</td>
             <td>${data.Dose_No}</td>
+            <td>${data.PhNum}</td>
           </tr>
             `
         })

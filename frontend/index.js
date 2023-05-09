@@ -235,10 +235,8 @@ function benif() {
   <div class="loginPopup">
     <div class="formPopup" id="popupForm1">
 
-      <h2>To book vaccine</h2>
-
       <form class="formContainer" id="formContainer0">
-
+         <h2 style="z-index:1;">To book vaccine</h2>
         <label>Enter the ID of Benificiary</label>
         <input type="text" id="benf_id" placeholder="Benificiary Id" name="benf_id" required>
         <button type="submit" id="ok">OK</button>
@@ -358,9 +356,9 @@ function benif() {
     let month = Vacc_Dt.getMonth() + 1; // Add 1 to get month from 1-12 instead of 0-11
     let day = Vacc_Dt.getDate() + 2;
     Vacc_Dt = year + '-' + month + '-' + day
+    let PhNum=phonenum;
 
-    let details = { benf_id, Vcode, Reg_Dt, Dose_No, Vacc_Dt }
-    let bod = { benf_id, Vcode, Dose_No }
+    let details = { benf_id, Vcode, Reg_Dt, Dose_No, Vacc_Dt,PhNum }
     console.log(details)
     var allow = 0;
 
@@ -471,7 +469,7 @@ function benif() {
     let adharNum = document.getElementById('adhar').value;
 
     const dob = document.getElementById("date").value;
-
+   
 
 
     const genderGroup = document.querySelector('input[name="gender"]:checked');
