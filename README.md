@@ -32,7 +32,7 @@ Database Connectivity: Express.js
 ERD Diagram (Entity - Relationship diagram):-
 
    
-![image](https://github.com/isha-73/Vaccination-Management-DBMS-/assets/87441080/18c7eac9-9842-432a-a19a-cd16fc66ecbf)
+![image](https://github.com/isha-73/Vaccination-Management-DBMS-/assets/87441080/5e5dbb63-5382-4161-b93c-2e7cd0db4d7b)
 
 
 Normalization : 
