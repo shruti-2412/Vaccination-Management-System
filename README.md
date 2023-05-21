@@ -21,44 +21,18 @@ There is a many-to-many relationship between all the entities and the relationsh
 
 
 Software tools :
+
 Front End: HTML, CSS, Javascript
+
 Back End: MySQL 8.0.32
+
 Database Connectivity: Express.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ERD Diagram (Entity - Relationship diagram):-
 
    
+![image](https://github.com/isha-73/Vaccination-Management-DBMS-/assets/87441080/18c7eac9-9842-432a-a19a-cd16fc66ecbf)
 
 
 Normalization : 
@@ -79,135 +53,63 @@ RegNo     —>  RegDt , Vacc_Dt , DoseNo
 3NF: The Beneficiary table, Vaccination table, and Login table are in 3NF as these tables are in 2NF, besides this, the transitive dependencies are not present in these tables.
 The vaccine table is in 2NF but contains transitive relationships as follows and to normalize the table to 3NF we decompose it into 2 tables viz Vaccine and Manufacturing.
 
+![image](https://github.com/isha-73/Vaccination-Management-DBMS-/assets/87441080/0d5c4764-a744-4802-9fed-a360d565c6c5)
 
 
 
 Database Tables : 
 Beneficiary
 
-Attribute 
-DataType 
-Constraint
-Benf_ID
-int
-Primary Key, AUTO_INCREMENT
-Name
-varchar(50)
-Not Null
-Address
-varchar(100)
-Not Null
-DOB
-date
-Not Null
-Gender
-char
-Not Null
-PhNo
-dec(10)
-Foreign Keys
-Aadhar_No
-dec(12)
-Unique
-
-
-
-
-
+Attribute    DataType            Constraint
+Benf_ID        int               Primary Key, AUTO_INCREMENT
+Name           varchar(50)       Not Null
+Address        varchar(100)      Not Null
+DOB            date              Not Null
+Gender         char              Not Null 
+PhNo           dec(10)           Foreign Keys
+Aadhar_No      dec(12)           Unique
 
 Vaccine
 
-Attribute 
-DataType 
-Constraint
-Vcode
-int
-Primary Key
-LotNo
-varchar(20)
-Foreign key
-Vname
-varchar(50)
-Unique, Not Null
-No_of_Doses
-int
-Not Null
-From_age
-dec(4,2)
-Not Null
-To_age
-dec(4,2)
-Not Null
-Price
-dec (7,2)
-Not Null
-Availability
-int
-Not Null
+Attribute      DataType          Constraint
+Vcode            int             Primary Key
+LotNo         varchar(20)         Foreign key
+Vname         varchar(50)        Unique, Not Null
+No_of_Doses      int             Not Null
+From_age       dec(4,2)          Not Null
+To_age         dec(4,2)          Not Null
+Price          dec (7,2)         Not Null
+Availability      int            Not Null
 
 
 
 Manufacturing
 
-Attribute 
-DataType 
-Constraint
-LotNo
-varchar(20)
-Primary key
-Manufacturer
-varchar(100)
-Not Null
-Manuf_Dt
-date
-Not Null
-Exp_Dt
-date
-Not Null
+Attribute         DataType          Constraint
+LotNo             varchar(20)       Primary key
+Manufacturer      varchar(100)      Not Null
+Manuf_Dt          date              Not Null
+Exp_Dt             date             Not Null
 
 
 Vaccination 
 
-Attribute 
-DataType 
-Constraint
-Reg_No
-int
-Primary Key, AUTO_INCREMENT
-Benf-id
-int
-Foreign Key
-Vcode
-int
-Foreign Key
-PhNo
-dec(10)
-Foreign Key
-Reg_Dt
-date
-Not Null
-Dose_No
-int
-Not Null
-Vacc_Dt
-date
-Not Null
+Attribute         DataType       Constraint
+Reg_No            int            Primary Key, AUTO_INCREMENT
+Benf-id           int            Foreign Key
+Vcode             int            Foreign Key
+PhNo             dec(10)         Foreign Key
+Reg_Dt           date            Not Null
+Dose_No           int            Not Null
+Vacc_Dt           date           Not Null
 
 
 User Login 
 
-Attribute 
-DataType 
-Constraint
-PhNo
-dec(10)
-Primary Key
-Password
-varchar(10)
-Not Null
-Role
-char
-Default(‘U’)
+Attribute         DataType          Constraint
+PhNo              dec(10)            Primary Key
+Password          varchar(10)        Not Null
+Role              char              Default(‘U’)
 
  
 Role - ‘U’ for user and ‘A’ for admin
