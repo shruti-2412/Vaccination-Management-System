@@ -1,16 +1,16 @@
 # Vaccination-Management-DBMS-
-Category: Website
+##Category: Website
 
-Purpose:
+##Purpose:
 The main purpose of this project is to make the vaccination task easy for users and providers and develop a website that replaces the traditional way of registration for vaccination.
 
-Introduction:
+##Introduction:
    The vaccination management system aims to create a website that helps users register for a particular vaccine from the database. The user-friendly interface will help the user to complete the registration with ease.
 
-Project Description:
+##Project Description:
 The website will have a login page in which the user must log in with his /her phone number and password. Once logged in the user will have to add the patient's details, which will lead to the successful registration of the beneficiary. Then there will be an option for taking vaccination where the user will get the vaccine names that are applicable to the beneficiary based on his age from which they can select desired vaccination. Once done, this will add information for vaccination in the database and a page will be displayed which will contain all the information about the vaccination and also the registration id which will be unique for all the vaccination. Many users can register for many vaccinations. One user can register for more than one beneficiary.   
 
-Database Requirements :
+##Database Requirements :
    We will have 3 entities and one relation between all the entities. The 3 entities include beneficiary, login and vaccine. The relation between them will be vaccination.
 The login entity will have attributes such as Phno as a primary key, a password for account protection and a role that will be either user or admin. 
 The beneficiary entity will have attributes describing the beneficiary such as name, address, dob, gender, aadharno and a unique beneficiary id as a primary key.
@@ -20,29 +20,29 @@ The vaccination relationship will have attributes that will describe the vaccina
 There is a many-to-many relationship between all the entities and the relationship set.
 
 
-Software tools :
+##Software tools :
 
-Front End: HTML, CSS, Javascript
+##Front End: HTML, CSS, Javascript
 
-Back End: MySQL 8.0.32
+##Back End: MySQL 8.0.32
 
-Database Connectivity: Express.js
+##Database Connectivity: Express.js
 
 
-ERD Diagram (Entity - Relationship diagram):-
+##ERD Diagram (Entity - Relationship diagram):-
 
    
 ![image](https://github.com/isha-73/Vaccination-Management-DBMS-/assets/87441080/5e5dbb63-5382-4161-b93c-2e7cd0db4d7b)
 
 
-Normalization : 
+##Normalization : 
 
 In order to accurately represent the data and the relationship that exists in the data we have to perform normalization on the tables. The tables are created from ERD by applying normalization.
 
 1NF: Here all the rows and columns of tables namely, Beneficiary, Vaccine, Login, and Vaccination have an atomic value and thus all these tables are already in 1NF.
 2NF: All the tables present in ERD are already in 2NF as all of them have a  single attribute primary key.
 
-Functional Dependencies : 
+##Functional Dependencies : 
 
 Vcode     —>  VName , DoseNo , Manufacturer , From_age , To_age , Exp_Dt ,    
                        Price, Availability, Manuf_Dt, LotNo
