@@ -26,9 +26,6 @@ There is a many-to-many relationship between all the entities and the relationsh
 
 ## Back End: MySQL 8.0.32
 
-## Database Connectivity: Express.js
-
-
 ## ERD Diagram (Entity - Relationship diagram):-
 
    
