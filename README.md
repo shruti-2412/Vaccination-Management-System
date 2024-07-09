@@ -8,23 +8,23 @@ The main purpose of this project is to make the vaccination task easy for users 
    The vaccination management system aims to create a website that helps users register for a particular vaccine from the database. The user-friendly interface will help the user to complete the registration with ease.
 
 ## Project Description:
-The website will have a login page in which the user must log in with his /her phone number and password. Once logged in the user will have to add the patient's details, which will lead to the successful registration of the beneficiary. Then there will be an option for taking vaccination where the user will get the vaccine names that are applicable to the beneficiary based on his age from which they can select desired vaccination. Once done, this will add information for vaccination in the database and a page will be displayed which will contain all the information about the vaccination and also the registration id which will be unique for all the vaccination. Many users can register for many vaccinations. One user can register for more than one beneficiary.   
+The website will have a login page in which the user must log in with his /her phone number and password. Once logged in the user will have to add the patient's details, which will lead to the successful registration of the beneficiary. Then there will be an option for taking vaccination where the user will get the vaccine names that apply to the beneficiary based on his age from which they can select the desired vaccination. Once done, this will add information for immunization in the database and a page will be displayed which will contain all the information about the vaccination and also the registration id which will be unique for all the vaccinations. Many users can register for many vaccinations. One user can register for more than one beneficiary.   
 
 ## Database Requirements :
    We will have 3 entities and one relation between all the entities. The 3 entities include beneficiary, login and vaccine. The relation between them will be vaccination.
 The login entity will have attributes such as Phno as a primary key, a password for account protection and a role that will be either user or admin. 
 The beneficiary entity will have attributes describing the beneficiary such as name, address, dob, gender, aadharno and a unique beneficiary id as a primary key.
 The vaccine entity has attributes describing the vaccine such as vaccine code, vaccine name, no of doses, manufacturer, applicable age for a vaccine, manufacturing date, expiry date, price, lot no, and available doses.
-The vaccination relationship will have attributes that will describe the vaccination process such as registration no, registration date, vaccination date, and dose no of the vaccine.
+The vaccination relationship will have attributes describing the vaccination process such as registration no, registration date, vaccination date, and dose no.
 
 There is a many-to-many relationship between all the entities and the relationship set.
 
 
 ## Software tools :
 
-## Front End: HTML, CSS, Javascript
+- Front End: HTML, CSS, Javascript
 
-## Back End: MySQL 8.0.32
+- Back End: MySQL 8.0.32
 
 ## ERD Diagram (Entity - Relationship diagram):-
 
@@ -34,7 +34,7 @@ There is a many-to-many relationship between all the entities and the relationsh
 
 ## Normalization : 
 
-In order to accurately represent the data and the relationship that exists in the data we have to perform normalization on the tables. The tables are created from ERD by applying normalization.
+To accurately represent the data and the relationship that exists in the data we have to perform normalization on the tables. The tables are created from ERD by applying normalization.
 
 1NF: Here all the rows and columns of tables namely, Beneficiary, Vaccine, Login, and Vaccination have an atomic value and thus all these tables are already in 1NF.
 2NF: All the tables present in ERD are already in 2NF as all of them have a  single attribute primary key.
