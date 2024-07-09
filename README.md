@@ -1,5 +1,5 @@
-# Vaccination-Management-DBMS-
-## Category: Website
+# Vaccination-Management-DBMS  
+
 
 ## Purpose:
 The main purpose of this project is to make the vaccination task easy for users and providers and develop a website that replaces the traditional way of registration for vaccination.
